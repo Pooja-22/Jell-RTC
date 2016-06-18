@@ -1,0 +1,31 @@
+{
+  "jitsiConf": {
+    "sshParams": {
+      "host": "jellrtc.com",
+      "user": "root",
+      "keyLocation": "/root/.ssh/id_rsa"
+    }
+  },
+  "configFiles": [
+    {
+      "id": 1,
+      "path": "/srv/jellrtc.com",
+      "fileName": "config.js",
+      "backupFolderName": "config.js.bak"
+    },
+    {
+      "id": 2,
+      "path": "/srv/jellrtc.com",
+      "fileName": "interface_config.js",
+      "backupFolderName": "interface_config.js.bak"
+    },
+    {
+      "id": 3,
+      "path": "/root/JellRTC-Jitsi/Keys",
+      "fileName": "ClientKeys.properties",
+      "backupFolderName": "ClientKeys.properties.bak"
+    }
+  ]
+}
+
+

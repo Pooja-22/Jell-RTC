@@ -1,0 +1,245 @@
+extends layout
+
+block head
+    link(rel='stylesheet', href='/stylesheets/bootstrap3-twbs.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/stats.css')
+    script(src="/javascripts/moment.js")
+    script(src="/javascripts/underscore-min.js")
+    script.
+        var refreshInterval = #{refreshInterval};
+        var configFiles = !{JSON.stringify(configFiles)};
+    script(src="/javascripts/stats.js")
+
+block content
+    div
+        a.pull-right.btn.btn-default.logout(href='/jitsi/logout') Logout
+        ul.nav.nav-tabs(style="padding: 15px 50px 0px 50px; background-color: #F5F4F3" role="tablist")
+            li#jellStatsTab.active(role="presentation")
+                a#JellStatsBtn(href='#JellStats' data-toggle="tab" aria-controls="JellStats" role="tab") Jell Stats
+            li(role="presentation")
+                a#conferenceBtn(href='#conference' data-toggle="tab" aria-controls="conference" role="tab") Conference
+            li#statsTab.hideClass(role="presentation")
+                a#statsBtn(href='#stats' data-toggle="tab" aria-controls="stats" role="tab") Stats
+            for configFile in configFiles
+                li.configFiles.hideClass(role="presentation")
+                    a.configBtn(href='#config' data-toggle="tab" data-fileId = "#{configFile.id}" aria-controls="config" role="tab") Manage #{configFile.fileName}
+            li#configurationTab.hideClass(role="presentation")
+                a#configurationBtn(href='#configuration' data-toggle="tab" aria-controls="configuration" role="tab") Configuration
+        div.tab-content
+            div.tab-pane.active#JellStats(role="tabpanel")
+                div.container-fluid.stats
+                    div.row
+                        h1.col-md-8 Client Specific Stats
+                    div.twbs.row
+                        div.col-md-12.overflow
+                            table.table.table-striped.table-bordered.table-condensed.table-responsive.yoloTable
+                                thead
+                                    th(style='width:16%;text-align:center;') Client Name
+                                    th(style='width:12%;text-align:center;') Date
+                                    th(style='width:12%;text-align:center;') Time
+                                    th(style='width:12%;text-align:center;') Conferences
+                                    th(style='width:12%;text-align:center;') Participants
+                                    th(style='width:12%;text-align:center;') Audio Channels
+                                    th(style='width:12%;text-align:center;') Video Channels
+                                    th(style='width:12%;text-align:center;') Video Streams
+                                tbody#JellStatsTable
+            div.tab-pane#conference(role="tabpanel")
+                div.container-fluid.stats
+                    div.row
+                        h1.col-md-8 Jellrtc Conference Id's
+                    div.twbs.row
+                        div.col-md-12.overflow
+                            table.table.table-striped.table-bordered.table-condensed.table-responsive.yoloTable
+                                thead
+                                    th(style='width:20%;text-align:center;')  ID
+                                    th(style='width:20%;text-align:center;')  No. of participants
+                                    th(style='width:20%;text-align:center;')  Audio
+                                    th(style='width:20%;text-align:center;')  Video
+                                    th(style='width:20%;text-align:center;')  Data
+                                tbody#conferenceTab
+            div.tab-pane#stats(role="tabpanel")
+                div.container-fluid.stats
+                    div.row
+                        h1.col-md-8 Jellrtc Stats
+                    div.twbs.row
+                        div.col-md-12.overflow
+                                table.table.table-striped.table-bordered.table-condensed.table-responsive.yoloTable
+                                    thead
+                                        th(style='width:10%;text-align:center;') Date
+                                        th(style='width:7%;text-align:center;') Time
+                                        th(style='width:7%;text-align:center;') Participants
+                                        th(style='width:6%;text-align:center;') Audio Channels
+                                        th(style='width:7%;text-align:center;') Bit Rate Download
+                                        th(style='width:7%;text-align:center;') Bit Rate Upload
+                                        th(style='width:8%;text-align:center;') Conferences
+                                        th(style='width:6%;text-align:center;') CPU Usage
+                                        th(style='width:8%;text-align:center;') Graceful Shutdown
+                                        th(style='width:4.5%;text-align:center;') Rtp Loss
+                                        th(style='width:5%;text-align:center;') Threads
+                                        th(style='width:5.5%;text-align:center;') Total Memory
+                                        th(style='width:5.5%;text-align:center;') Used Memory
+                                        th(style='width:6.5%;text-align:center;') Video Channels
+                                        th(style='width:7%;text-align:center;') Video Streams
+                                    tbody#statsTable
+            div.tab-pane#config(role="tabpanel")
+                div.container-fluid.stats
+                    div.row
+                        h1.col-md-3 Jellrtc Config
+                        h5.col-md-3#getSetLoader
+                        a.pull-right.btn.btn-default.marginTop22#saveConfig(href='#') Save to
+                            span.configFileName
+                    div.row.config-content
+                        div.col-md-9
+                            textarea.config-text#configText
+                        div.col-md-3
+                            ul.list-group
+                                li.list-group-item
+                                    a(href='#' onclick="loadBackup()")
+                                        span.configFileName
+                                        span#config-file-timestamp
+                            strong.row Restore Backup
+                            div#bak-list
+
+            div.tab-pane#configuration(role="#tabpanel")
+                div.container-fluid.stats
+                    div.rows
+                        div.col-md-2#sideListDiv
+                            p#usersP
+                                a#showAllUsersBtn.largeFont Users
+                            //p#refreshIntervalP
+                            //    a#refreshIntervalBtn.largeFont Refresh Interval
+                            //p#configFilesP
+                            //    a#configFilesBtn.largeFont Config Files
+                        div.col-md-10.padding20
+                            div#AllUsersList
+                                div#loaderList
+                                    span#loaderListSpan
+                                    img(src="/assets/Images/ajax-loader.gif" height='100' width='100')
+                                button#addUserBtn Add User
+                                table.marginTop22.table.table-striped.table-bordered.table-condensed.table-responsive.yoloTable
+                                    thead
+                                        th(style="width: 20%;text-align:center;").tableHead UserName
+                                        th(style="width: 20%;text-align:center;").tableHead FirstName
+                                        th(style="width: 19%;text-align:center;").tableHead LastName
+                                        th(style="width: 19%;text-align:center;").tableHead Role
+                                        th(style="width: 19%;text-align:center;").tableHead Client Name
+                                    tbody#usersListTab
+                            div#addUserPage
+                                div#loader
+                                    span#loaderSpan
+                                    img(src="../assets/Images/ajax-loader.gif" height='100' width='100')
+                                div#addUserForm
+                                    form#form
+                                        div#firstNamediv.form-group
+                                            label(for="firstname") Firstname
+                                            input.form-control.width#firstname(type="text" onblur='firstNameBlur()')
+                                            span#firstNameSpan.spanClass This field can't be empty
+                                        div#lastNamediv.form-group
+                                            label(for="lastname") Lastname
+                                            input.form-control.width#lastname(type="text" onblur='lastNameBlur()')
+                                            span#lastNameSpan.spanClass This field can't be empty
+                                        div#userNamediv.form-group
+                                            label(for="username") Username
+                                            input.form-control.width#username(type="text" onblur='usernameBlur()')
+                                            span#userNameSpan.spanClass This field can't be empty
+                                        div#passworddiv.form-group
+                                            label(for="password") Password
+                                            input.form-control.width#password(type="password" onblur='passwordBlur()')
+                                            span#passwordSpan.spanClass This field can't be empty
+                                        div.form-group
+                                            label(for="role") Role
+                                                select.form-control#role
+                                                    option ROLE_USER
+                                                    option ROLE_ADMIN
+                                        div#selectClient.form-group
+                                            label(for="client") Client
+                                                select.form-control#clientSelectBox
+                                        input.btn.btn-default(type="button" onclick='addUser()' value='Add')
+                            //div#refreshInterval
+                            //    div(style='border:1px solid #ccc;padding:30px;')
+                            //        div.form-group
+                            //            label(for="refreshInterval") Refresh Interval
+                            //            input.form-control(type="number", id="newRefreshInterval")(style="width:300px;")
+                            //        input.btn.btn-default(type="submit" onclick='setRefreshInterval()' value='Save')
+                            //div#conFigFilesList
+                            //    //div#loaderConfigList
+                            //    //    span#loaderListConfigSpan
+                            //    //    img(i="/assets/Images/ajax-loader.gif" height='100' width='100')
+                            //    table.marginTop22.table.table-striped.table-bordered.table-condensed.table-responsive.yoloTable
+                            //        thead
+                            //            th(style="width: 21%;text-align:center;").tableHead Id
+                            //            th(style="width: 21%;text-align:center;").tableHead Path
+                            //            th(style="width: 21%;text-align:center;").tableHead File Name
+                            //            th(style="width: 21%;text-align:center;").tableHead Backup Folder Name
+                            //            th(style="width: 8%;text-align:center;").tableHead Edit
+                            //            th(style="width: 8%;text-align:center;").tableHead Save
+                            //        tbody#configFilesListTab
+
+    div.modal.fade#audio(tabindex='-1' role='dialog' aria-labelledby='audio')
+        div#audioModal.modal-dialog.modal-lg(role ='document')
+            div.modal-content
+                div.modal-header
+                    button.close(type='button' data-dismiss ="modal" aria-label="Close")
+                        span(aria-hidden='true')&times
+                    h4.modal-title#mymodalLabel Audio
+                div.modal-body
+                    div.table-responsive
+                        table.table.table-striped.table-bordered.table-responsive.yoloTable
+                            thead
+                                th(style='width:10%;text-align:center;' ) Endpoint
+                                th(style='width:10%;text-align:center;') Channel-bundle-id
+                                th(style='width:10%;text-align:center;' ) Sources
+                                th(style='width:10%;text-align:center;' ) RTP-level-relay-type
+                                th(style='width:10%;text-align:center;' ) Expire
+                                th(style='width:10%;text-align:center;' ) Initiator
+                                th(style='width:10%;text-align:center;' ) SSRCS
+                                th(style='width:10%;text-align:center;' ) Id
+                                th(style='width:10%;text-align:center;' ) Direction
+                            tbody#audioresult
+
+    div.modal.fade#video(tabindex='-1' role='dialog' aria-labelledby='#video')
+        div#videoModal.modal-dialog.modal-lg(role ='document')
+            div.modal-content
+                div.modal-header
+                    button.close(type='button' data-dismiss ="modal" aria-label="Close")
+                        span(aria-hidden='true')&times
+                    h4.modal-title#mymodalLabel Video
+                div.modal-body
+                    div.table-responsive
+                        table.table.table-striped.table-bordered
+                            thead
+                                th(style='width:7%;text-align:center;' ) Endpoint
+                                th(style='width:7%;text-align:center;' ) Channel-bundle-id
+                                th(style='width:7%;text-align:center;' ) Sources
+                                th(style='width:7%;text-align:center;' ) RTP-level-relay-type
+                                th(style='width:7%;text-align:center;' ) Expire
+                                th(style='width:7%;text-align:center;' ) Initiator
+                                th(style='width:7%;text-align:center;' ) SSRCS
+                                th(style='width:14%;text-align:center;' ) Id
+                                th(style='width:7%;text-align:center;' ) Simlulcast-mode
+                                th(style='width:7%;text-align:center;' ) Recieve-simulcast-layer
+                                th(style='width:7%;text-align:center;' ) Direction
+                                th(style='width:7%;text-align:center;' ) Last
+                            tbody#videoresult
+
+    div.modal.fade#data(tabindex='-1' role='dialog' aria-labelledby='data')
+        div#dataModal.modal-dialog(role ='document')
+            div.modal-content
+                div.modal-header
+                    button.close(type='button' data-dismiss ="modal" aria-label="Close")
+                        span(aria-hidden='true')&times
+                    h4.modal-title#mymodalLabel Data
+                div.modal-body
+                    div.table-responsive
+                        table.table.table-striped.table-bordered
+                            thead
+                                th(style='width:15%' ) Endpoint
+                                th(style='width:15%' ) Channel-bundle-id
+                                th(style='width:15%' ) Port
+                                th(style='width:15%' ) Expire
+                                th(style='width:15%' ) Initiator
+                                th(style='width:15%' ) Id
+                            tbody#dataresult
+
+

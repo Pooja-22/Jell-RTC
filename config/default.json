@@ -1,0 +1,29 @@
+{
+  "password": "j1ts1",
+  "jitsiConf": {
+  //  "thinAppServerURL": "http://10.1.23.10:8080/JellRTCAdminServer/",
+    "thinAppServerURL": "http://45.79.187.26:7070/",
+   // "thinAppServerURL": "http://10.1.13.156:8081/JellRTCAdminServer/",
+ //   "thinAppServerURLJellStats": "http://10.1.13.186:8080/",
+    "serverUrl": "http://45.79.187.26:8080/",
+    "sshParams": {
+      "host": "visheshsinghal.com",
+      "user": "ubuntu",
+      "keyLocation": "/Users/vishesh/.ssh/id_rsa_me"
+    }
+  },
+  "configFiles": [
+    {
+      "id": 1,
+      "path": "/home/ubuntu/jellrtcconfig",
+      "fileName": "config.js",
+      "backupFolderName": "config.js-bak"
+    },
+    {
+      "id": 2,
+      "path": "/home/ubuntu/jellrtcconfig",
+      "fileName": "config2.js",
+      "backupFolderName": "config2.js-bak"
+    }
+  ]
+}

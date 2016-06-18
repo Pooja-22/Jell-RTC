@@ -1,0 +1,98 @@
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.login-page {
+    padding-top: 100px;
+}
+
+.login-page .logo {
+    margin-left: 18px;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.password-form {
+    margin-top: 20px;
+}
+
+.message {
+    margin: 20px 0px 20px 0;
+}
+
+.twbs {
+    margin-top: 20px;
+}
+
+.config-content {
+    padding: 20px 0px 0px 0px;
+}
+
+.logout {
+    margin: 15px 50px 0px 0px;
+}
+
+.stats {
+    padding: 0px 50px 0px 50px;
+}
+
+thead, tbody, tr, td {
+    display: block;
+}
+
+tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+thead th {
+    word-break: break-all;
+    width: auto;
+    height: 60px;
+}
+
+tbody td {
+    word-break: break-all;
+    width: auto;
+    height: 50px;
+}
+
+.modal table {
+    margin-bottom: 0px;
+}
+
+.modal tbody {
+    height: auto;
+    overflow-y: auto;
+}
+
+.modal th, .modal td {
+    display: table-cell;
+    float: none;
+
+}
+
+thead {
+    /* fallback */
+}
+
+tbody td, thead th {
+    display: table-cell;
+    width: 7.5%;
+    float: left;
+}
+
+#saveConfig {
+    margin-right: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#getSetLoader {
+    margin-top: 33px;
+}
+

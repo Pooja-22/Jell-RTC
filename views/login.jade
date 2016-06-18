@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    div.container.login-page
+        div.row
+            div.col-md-offset-4
+                h1.logo Jellrtc Login
+        div.row.password-form
+            div.col-md-3.col-md-offset-4
+                div.message #{message}
+                form(method="post" action="/jitsi/login" role="form")
+                    div.form-group
+                        label(for="username") Username
+                        input.form-control(type="text", name="username")
+                    div.form-group
+                        label(for="password") Password
+                        input.form-control(type="password", name="password")
+                    div.form-group
+                        label(for="refreshInterval") Refresh Interval
+                        input.form-control(type="nume", name="refreshInterval" value = '5')
+                    input.btn.btn-default(type="submit")
