@@ -107,8 +107,8 @@ block content
                         div.col-md-2#sideListDiv
                             p#usersP
                                 a#showAllUsersBtn.largeFont Users
-                            //p#refreshIntervalP
-                            //    a#refreshIntervalBtn.largeFont Refresh Interval
+                            p#refreshIntervalP
+                                a#refreshIntervalBtn.largeFont Refresh Interval
                             //p#configFilesP
                             //    a#configFilesBtn.largeFont Config Files
                         div.col-md-10.padding20
@@ -156,12 +156,12 @@ block content
                                             label(for="client") Client
                                                 select.form-control#clientSelectBox
                                         input.btn.btn-default(type="button" onclick='addUser()' value='Add')
-                            //div#refreshInterval
-                            //    div(style='border:1px solid #ccc;padding:30px;')
-                            //        div.form-group
-                            //            label(for="refreshInterval") Refresh Interval
-                            //            input.form-control(type="number", id="newRefreshInterval")(style="width:300px;")
-                            //        input.btn.btn-default(type="submit" onclick='setRefreshInterval()' value='Save')
+                            div#refreshInterval
+                                div(style='border:1px solid #ccc;padding:30px;')
+                                    div.form-group
+                                        label(for="refreshInterval") Refresh Interval
+                                        input.form-control(type="number", id="newRefreshInterval")(style="width:300px;")
+                                    input.btn.btn-default(type="submit" onclick='setRefreshInterval()' value='Save')
                             //div#conFigFilesList
                             //    //div#loaderConfigList
                             //    //    span#loaderListConfigSpan

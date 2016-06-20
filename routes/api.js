@@ -47,105 +47,6 @@ router.post('/jitsi/config/save/:id', function (req, res, next) {
 });
 
 /**
- * Get Jell data for particular client
- */
-
-router.get('/jitsi/jellStats', function (req, res) {
-    if (req.session.jitsiLoggedIn) {
-        var userProfile = JSON.parse(req.session.user);
-        var id = userProfile.clientKey;
-        var serverUrl = config.get('jitsiConf.serverUrl');
-        var url = serverUrl + 'colibri/Jellstats?' + id;
-        request.get({
-            url: url,
-            headers: {
-                "Authorization": 'Bearer ' + req.session.token
-            }
-        }, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.json(JSON.parse(body));
-            }
-            else {
-                if (response) {
-                    console.log('Error Jell stats', response.statusCode);
-                } else if (error) {
-                    console.log(error,'Jell stats');
-                }
-            }
-        });
-    } else {
-        res.sendStatus(401);
-        res.redirect('/jitsi/logout');
-    }
-});
-
-/**
- * Get all the client keys
- */
-
-router.get('/jitsi/clientKeys', function (req, res) {
-    if (req.session.jitsiLoggedIn) {
-
-        var serverUrl = config.get('jitsiConf.thinAppServerURL');
-        var url = serverUrl + 'user/getClientKey';
-        request.get({
-            url: url,
-            headers: {
-                "Authorization": 'Bearer ' + req.session.token
-            }
-        }, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.json(JSON.parse(body));
-            }
-            else {
-                if (response) {
-                    console.log('Error clientKeys', response.statusCode);
-                    if (response.statusCode == 401) {
-                        res.redirect('/jitsi/logout');
-                    }
-                } else if (error) {
-                    res.send({'message': "Sorry try again later"});
-                    console.log(error,'clientKeys');
-                }
-            }
-        });
-    } else {
-        res.sendStatus(401);
-        res.redirect('/jitsi/logout');
-    }
-});
-
-/**
- * Stats Data-- Data of all conferences
- */
-
-router.get('/jitsi/stats', function (req, res, next) {
-    if (req.session.jitsiLoggedIn) {
-        var serverUrl = config.get('jitsiConf.serverUrl');
-        var url = serverUrl + 'colibri/stats?admin123';
-        request(url, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.json(JSON.parse(body));
-            }
-            else {
-                if (response) {
-                    console.log('Error Stats', response.statusCode);
-                    if (response.statusCode == 401) {
-                        res.redirect('/jitsi/logout');
-                    }
-                } else if (error) {
-                    res.send({'message': "Sorry try again later"});
-                    console.log(error,"stats error");
-                }
-            }
-        });
-    } else {
-        res.sendStatus(401);
-        res.redirect('/jitsi/logout');
-    }
-});
-
-/**
  * Conference Data
  */
 
@@ -182,7 +83,7 @@ router.get('/jitsi/conferences/id/:id', function (req, res, next) {
         request(serverUrl + '/colibri/conferences' + req.params.id + '?admin', function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.json(JSON.parse(body));
-            }else {
+            } else {
                 if (response) {
                     console.log('Error', response.statusCode);
                     if (response.statusCode == 401) {
@@ -298,6 +199,112 @@ router.get('/jitsi/config/content/:id/:bak?', function (req, res, next) {
 });
 
 /**
+ * Get Jell data for particular client
+ */
+
+router.get('/jitsi/jellStats', function (req, res) {
+    if (req.session.jitsiLoggedIn) {
+        var userProfile = JSON.parse(req.session.user);
+        var id = userProfile.clientKey;
+        var serverUrl = config.get('jitsiConf.serverUrl');
+        var url = serverUrl + 'colibri/Jellstats?' + id;
+        request.get({
+            url: url,
+            headers: {
+                "Authorization": 'Bearer ' + req.session.token
+            }
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                res.json(JSON.parse(body));
+            }
+            else {
+                if (response) {
+                    console.log('Error Jell stats', response.statusCode);
+
+                    if (response.statusCode == 401) {
+                        res.redirect('/jitsi/logout');
+                    }
+                } else if (error) {
+                    res.send({'message': "Sorry try again later"});
+                    console.log(error, 'Jell stats');
+                }
+            }
+        });
+    } else {
+        res.sendStatus(401);
+        res.redirect('/jitsi/logout');
+    }
+});
+
+/**
+ * Stats Data-- Data of all conferences
+ */
+
+router.get('/jitsi/stats', function (req, res, next) {
+    if (req.session.jitsiLoggedIn) {
+        var userProfile = JSON.parse(req.session.user);
+        var serverUrl = config.get('jitsiConf.serverUrl');
+        var id = userProfile.clientKey;
+        var url = serverUrl + 'colibri/stats?' + id;
+        request(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                res.json(JSON.parse(body));
+            }
+            else {
+                if (response) {
+                    console.log('Error Stats', response.statusCode);
+                    if (response.statusCode == 401) {
+                        res.redirect('/jitsi/logout');
+                    }
+                } else if (error) {
+                    res.send({'message': "Sorry try again later"});
+                    console.log(error, "stats error");
+                }
+            }
+        });
+    } else {
+        res.sendStatus(401);
+        res.redirect('/jitsi/logout');
+    }
+});
+
+/**
+ * Get all the client keys
+ */
+
+router.get('/jitsi/clientKeys', function (req, res) {
+    if (req.session.jitsiLoggedIn) {
+
+        var serverUrl = config.get('jitsiConf.thinAppServerURL');
+        var url = serverUrl + 'user/getClientKey';
+        request.get({
+            url: url,
+            headers: {
+                "Authorization": 'Bearer ' + req.session.token
+            }
+        }, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                res.json(JSON.parse(body));
+            }
+            else {
+                if (response) {
+                    console.log('Error clientKeys', response.statusCode);
+                    if (response.statusCode == 401) {
+                        res.redirect('/jitsi/logout');
+                    }
+                } else if (error) {
+                    res.send({'message': "Sorry try again later"});
+                    console.log(error, 'clientKeys');
+                }
+            }
+        });
+    } else {
+        res.sendStatus(401);
+        res.redirect('/jitsi/logout');
+    }
+});
+
+/**
  * Add user -- only Admin can create
  */
 
@@ -332,7 +339,7 @@ router.post('/jitsi/addUser', function (req, res) {
                     }
                 } else if (error) {
                     res.send({'message': "Sorry try again later"});
-                    console.log(error,'add user');
+                    console.log(error, 'add user');
                 }
             }
         });
@@ -357,7 +364,6 @@ router.get('/jitsi/allUsers', function (req, res) {
             }
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                console.log(body,"all users data");
                 res.json(JSON.parse(body));
             }
             else {
@@ -368,7 +374,7 @@ router.get('/jitsi/allUsers', function (req, res) {
                     }
                 } else if (error) {
                     res.send({'message': "Sorry try again later"});
-                    console.log(error,'all users');
+                    console.log(error, 'all users');
                 }
             }
         });
@@ -385,7 +391,6 @@ router.get('/jitsi/allUsers', function (req, res) {
 router.get('/jitsi/deleteUser/:id', function (req, res) {
     var id = req.params.id;
     var userProfile = JSON.parse(req.session.user);
-
     if (req.session.jitsiLoggedIn) {
         if (id == userProfile.userId) {
             res.send({'deleteMessage': "Sorry you can't delete this user"})
@@ -410,7 +415,7 @@ router.get('/jitsi/deleteUser/:id', function (req, res) {
                         }
                     } else if (error) {
                         res.send({'message': "Sorry try again later"});
-                        console.log(error,'delete');
+                        console.log(error, 'delete');
                     }
                 }
             });
@@ -448,7 +453,7 @@ router.get('/jitsi/userProfile', function (req, res) {
                     }
                 } else if (error) {
                     res.send({'message': "Sorry try again later"});
-                    console.log(error , 'user profile');
+                    console.log(error, 'user profile');
                 }
             }
         });
@@ -457,5 +462,17 @@ router.get('/jitsi/userProfile', function (req, res) {
         res.redirect('/jitsi/logout');
     }
 });
+
+/**
+ * Set the refresh Interval
+ */
+
+router.get('/jitsi/setRefreshInterval/:refreshInterval', function (req, res) {
+    if (req.session.jitsiLoggedIn) {
+        req.session.refreshInterval = req.params.refreshInterval;
+        res.send({'message': "done"});
+    }
+});
+
 
 module.exports = router;

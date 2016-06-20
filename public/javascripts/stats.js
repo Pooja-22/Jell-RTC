@@ -205,6 +205,7 @@ $('document').ready(function () {
 
     jellStats();
     statsFetcher = setInterval(function () {
+        console.log(refreshInterval,"refreshInterval");
         jellStats();
     }, refreshInterval*1000);
 
@@ -251,7 +252,7 @@ $('document').ready(function () {
 
     $("#configurationBtn").click(function () {
         $('#addUserPage').hide();
-      //  $('#refreshInterval').hide();
+        $('#refreshInterval').hide();
         //$('#conFigFilesList').hide();
         $('#showAllUsersBtn').click();
     });
@@ -269,7 +270,7 @@ $('document').ready(function () {
         $('#password').val('').attr('autocomplete', 'off');
         if ($('#AllUsersList').is(':hidden') == true) {
             $('#addUserPage').hide();
-           // $('#refreshInterval').hide();
+            $('#refreshInterval').hide();
             //$('#conFigFilesList').hide();
             $('#AllUsersList').show();
             getAllUsers();
@@ -296,7 +297,7 @@ $('document').ready(function () {
                 });
                 $('#loaderList').css('display', 'none');
                 $('#AllUsersList').hide();
-                //$('#refreshInterval').hide();
+                $('#refreshInterval').hide();
               //  $('#conFigFilesList').hide();
                 $('#addUserPage').show();
             }
@@ -307,13 +308,13 @@ $('document').ready(function () {
      * On click of 'refresh interval'
      */
 
-    //$('#refreshIntervalBtn').click(function () {
-    //    $('#refreshInterval').show();
-    //    $('#addUserPage').hide();
-    //    $('#conFigFilesList').hide();
-    //    $('#AllUsersList').hide();
-    //
-    //});
+    $('#refreshIntervalBtn').click(function () {
+        $('#refreshInterval').show();
+        $('#addUserPage').hide();
+       // $('#conFigFilesList').hide();
+        $('#AllUsersList').hide();
+
+    });
     //
     ///**
     // * on click of 'config files'
@@ -563,6 +564,14 @@ function addUserFunction(userObj) {
 /**
  * set the refresh interval
  */
+
+function setRefreshInterval(){
+    var refreshInterval  = $('#newRefreshInterval').val();
+    var url = '/api/jitsi/setRefreshInterval/' + refreshInterval;
+    $.get(url).done(function(data){
+        console.log(data.message);
+    })
+}
 
 /**
  * Display config files
