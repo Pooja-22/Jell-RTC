@@ -68,11 +68,7 @@ router.get('/jitsi/jellStats', function (req, res) {
             else {
                 if (response) {
                     console.log('Error Jell stats', response.statusCode);
-                    if (response.statusCode == 401) {
-                        res.redirect('/jitsi/logout');
-                    }
                 } else if (error) {
-                    res.send({'message': "Sorry try again later"});
                     console.log(error,'Jell stats');
                 }
             }
@@ -361,6 +357,7 @@ router.get('/jitsi/allUsers', function (req, res) {
             }
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
+                console.log(body,"all users data");
                 res.json(JSON.parse(body));
             }
             else {

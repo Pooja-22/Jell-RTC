@@ -1,10 +1,10 @@
 {
   "password": "j1ts1",
   "jitsiConf": {
-  //  "thinAppServerURL": "http://10.1.23.10:8080/JellRTCAdminServer/",
+   //"thinAppServerURL": "http://10.1.23.10:8080/JellRTCAdminServer/",
     "thinAppServerURL": "http://45.79.187.26:7070/",
    // "thinAppServerURL": "http://10.1.13.156:8081/JellRTCAdminServer/",
- //   "thinAppServerURLJellStats": "http://10.1.13.186:8080/",
+   //"thinAppServerURLJellStats": "http://10.1.13.186:8080/",
     "serverUrl": "http://45.79.187.26:8080/",
     "sshParams": {
       "host": "visheshsinghal.com",
